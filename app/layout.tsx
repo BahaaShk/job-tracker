@@ -1,28 +1,58 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+// This is the ROOT layout — Next.js requires this file in the app/ directory.
+// Every page in the app is wrapped inside this layout automatically.
+// Think of it as the "frame" that never changes between pages.
 
+import type { Metadata } from "next";
+// Metadata is a TypeScript type from Next.js — it shapes what you export
+// for SEO (page title, description, etc.)
+
+import { Geist } from "next/font/google";
+// next/font loads Google Fonts at BUILD TIME — no extra network request in the browser.
+// This means zero layout shift and better performance vs a <link> tag in HTML.
+
+import "./globals.css";
+// Importing your global CSS here makes it apply to every page in the app.
+
+import { ThemeProvider } from "@/components/ThemeProvider";
+// @/ is an alias for the root of your project (configured by Next.js automatically).
+// ThemeProvider is a Client Component we wrote to manage dark/light mode.
+
+// Geist is the font. We assign it a CSS variable name so Tailwind can use it.
 const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
+  subsets: ["latin"], // Only load the Latin character set — keeps the font file small.
+  variable: "--font-geist", // The CSS variable name we'll reference in globals.css.
 });
 
+// This export tells Next.js what to put in the <head> of every page.
 export const metadata: Metadata = {
   title: "JobTracker",
   description: "Personal job search dashboard",
 };
 
+// RootLayout receives "children" — that's whatever page is currently being visited.
+// Next.js passes the current page as children automatically.
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode; // TypeScript: children can be any valid React content.
 }) {
   return (
+    // suppressHydrationWarning: the "dark" class is added to <html> by JavaScript
+    // after the page loads (client-side). So the server-rendered HTML won't have it.
+    // React would normally warn about this mismatch — this attribute silences that warning
+    // specifically on <html>, and only for that one attribute.
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geist.variable} font-sans bg-bg text-text-primary min-h-screen antialiased`}
+        className={`
+          ${geist.variable}     /* Injects --font-geist as a CSS variable on <body> */
+          font-sans             /* Tailwind uses --font-sans, which we map to --font-geist in globals.css */
+          bg-bg                 /* Your custom token: background color (light: #F4F6F9, dark: #0D1117) */
+          text-text-primary     /* Your custom token: main text color */
+          min-h-screen          /* Body takes at least the full viewport height */
+          antialiased           /* Smooths font rendering — makes text look sharper */
+        `}
       >
+        {/* ThemeProvider wraps all pages so every component can access the theme */}
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
