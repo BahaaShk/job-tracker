@@ -14,6 +14,7 @@ import "./globals.css";
 // Importing your global CSS here makes it apply to every page in the app.
 
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Navbar } from "@/components/Navbar";
 // @/ is an alias for the root of your project (configured by Next.js automatically).
 // ThemeProvider is a Client Component we wrote to manage dark/light mode.
 
@@ -53,7 +54,10 @@ export default function RootLayout({
         `}
       >
         {/* ThemeProvider wraps all pages so every component can access the theme */}
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+           <Navbar />  
+          {children}
+          </ThemeProvider>
       </body>
     </html>
   );
