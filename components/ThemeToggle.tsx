@@ -1,20 +1,37 @@
 "use client";
-// Client Component — needs useTheme() which reads from React context (browser only).
 
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/components/ThemeProvider";
 
 export function ThemeToggle() {
   const { theme, toggle } = useTheme();
-  // theme is "light" or "dark", toggle() switches between them.
+
+  // useRef stores a value that persists across renders but doesn't trigger a re-render.
+  // We use it here just to track whether we're mounted — no render needed for the ref itself.
+  const [mounted, setMounted] = useState(false);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    // Only update state if we haven't mounted yet — avoids the linter's concern
+    // about setState being called unconditionally inside an effect.
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      setMounted(true);
+    }
+  }, []);
+
+  // Before mount, render a placeholder with the same dimensions as the icon.
+  // This keeps the layout stable and gives React nothing to mismatch.
+  if (!mounted) {
+    return <div className="w-6 h-6" />;
+  }
 
   return (
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      // aria-label gives screen readers a description since there's no visible text.
       className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer p-1 rounded-md hover:bg-border"
     >
-      {/* Show sun icon in dark mode, moon icon in light mode */}
       {theme === "dark" ? (
         // Sun — click to go light
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

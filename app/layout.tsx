@@ -26,7 +26,7 @@ const geist = Geist({
 
 // This export tells Next.js what to put in the <head> of every page.
 export const metadata: Metadata = {
-  title: "JobTracker",
+  title: "Job Tracker",
   description: "Personal job search dashboard",
 };
 
@@ -43,6 +43,29 @@ export default function RootLayout({
     // React would normally warn about this mismatch — this attribute silences that warning
     // specifically on <html>, and only for that one attribute.
     <html lang="en" suppressHydrationWarning>
+            <head>
+        {/*
+          This script runs BEFORE the page renders — before React, before CSS, before anything.
+          It reads localStorage and applies the "dark" class to <html> instantly.
+          Because it blocks rendering, the user never sees the wrong theme for even one frame.
+          dangerouslySetInnerHTML is React's way of injecting raw HTML/JS — we need it here
+          because JSX would escape the string and break the script.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var theme = stored ? stored : (prefersDark ? 'dark' : 'light');
+                  if (theme === 'dark') document.documentElement.classList.add('dark');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`
           ${geist.variable}     /* Injects --font-geist as a CSS variable on <body> */
