@@ -8,9 +8,10 @@ import JobCard from "./JobCard";
 
 type Props = {
   jobs: Job[]; // the full list fetched server-side, passed down as props
+  savedUrls: Set<string>;
 };
 
-export default function JobFeed({ jobs }: Props) {
+export default function JobFeed({ jobs, savedUrls }: Props) {
   const [keyword, setKeyword] = useState("");
 
   // filter happens client-side on the already-fetched data — no re-fetch, instant feedback
@@ -44,7 +45,11 @@ export default function JobFeed({ jobs }: Props) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((job) => (
-            <JobCard key={job.id} job={job} />
+            <JobCard
+              key={job.id}
+              job={job}
+              alreadySaved={savedUrls.has(job.job_url)}
+            />
           ))}
         </div>
       )}

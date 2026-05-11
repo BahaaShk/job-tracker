@@ -8,11 +8,13 @@ import { saveJob } from "@/app/actions/saveJob";
 
 type Props = {
   job: Job;
+  alreadySaved: boolean;
 };
 
-export default function JobCard({ job }: Props) {
-  // tracks the save button state: idle → loading → saved (or error)
-  const [status, setStatus] = useState<"idle" | "loading" | "saved" | "error">("idle");
+export default function JobCard({ job, alreadySaved }: Props) {
+  // initialize directly from the prop — so on refresh it starts as "saved" if it's in the DB
+  const [status, setStatus] = useState<"idle" | "loading" | "saved" | "error">(
+    alreadySaved ? "saved" : "idle");
 
   async function handleSave() {
     setStatus("loading");

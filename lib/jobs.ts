@@ -20,11 +20,18 @@ type RemotiveJob = {
 
 // Shape of a single job object returned by the Himalayas API
 type HimalayasJob = {
-  slug: string;
+  guid?: string;
   title: string;
   companyName: string;
   applicationLink: string;
 };
+
+function getHimalayasJobId(job: HimalayasJob, index: number) {
+  const uniqueValue =
+    job.guid || job.applicationLink || `${job.companyName}-${job.title}-${index}`;
+
+  return `himalayas-${uniqueValue}`;
+}
 
 // Remotive API — returns remote jobs, free, no auth needed
 export async function fetchRemotive(keyword: string): Promise<Job[]> {
@@ -58,8 +65,8 @@ export async function fetchHimalayas(keyword: string): Promise<Job[]> {
 
   const data = await res.json();
 
-  return data.jobs.map((job: HimalayasJob) => ({
-    id: `himalayas-${job.slug}`,     // Himalayas uses slugs not numeric IDs
+  return data.jobs.map((job: HimalayasJob, index: number) => ({
+    id: getHimalayasJobId(job, index), // Himalayas uses guid as the unique job ID
     title: job.title,
     company: job.companyName,
     job_url: job.applicationLink,
