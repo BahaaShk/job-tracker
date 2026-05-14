@@ -37,7 +37,7 @@ export default function NotesCell({ id, initialNotes }: Props) {
           setSaved(false); // reset the "Saved" indicator if they edit again
         }}
         rows={2}
-        placeholder="Add notes…"
+        placeholder="Add notes …"
         className="
           w-full text-sm bg-bg border border-border rounded-md px-2 py-1
           text-text-primary placeholder:text-muted resize-none
