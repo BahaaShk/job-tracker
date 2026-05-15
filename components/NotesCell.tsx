@@ -70,7 +70,7 @@ export default function NotesCell({ id, initialNotes }: Props) {
           This message only appears after saving, and only if there are no new edits.
         */}
         {saved && !isDirty && (
-          <span className="text-xs text-success">Saved</span>
+          <span className="text-xs text-success">Saved ✔</span>
         )}
       </div>
     </div>
