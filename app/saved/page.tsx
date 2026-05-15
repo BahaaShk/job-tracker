@@ -24,7 +24,7 @@ export default async function SavedPage() {
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-text-primary">Saved Jobs</h1>
-        <span className="text-text-secondary text-sm">{jobs.length} jobs tracked</span>
+        <span className="text-text-secondary text-sm">{jobs.length} jobs are tracked</span>
       </div>
 
       <SavedTable jobs={jobs} />

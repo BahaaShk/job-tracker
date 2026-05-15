@@ -47,8 +47,8 @@ export default function StatusSelect({ id, currentStatus }: Props) {
         ${statusStyles[status]}
       `}
     >
-      {statusOptions.map((s) => (
-        <option key={s} value={s}>{s}</option>
+      {statusOptions.map((option) => (
+        <option key={option} value={option}>{option}</option>
       ))}
     </select>
   );
