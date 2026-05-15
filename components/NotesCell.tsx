@@ -62,7 +62,7 @@ export default function NotesCell({ id, initialNotes }: Props) {
           disabled={!isDirty || isPending}
           className="text-xs px-2 py-0.5 rounded bg-accent text-white hover:bg-accent-hover disabled:opacity-50 transition-colors"
         >
-          {isPending ? "Saving..." : "Save"}
+          {isPending ? "Saving ..." : "Save ?"}
         </button>
 
         {/*
