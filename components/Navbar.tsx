@@ -31,7 +31,7 @@ export async function Navbar() {
                 href="/"
                 className="text-text-secondary hover:text-text-primary text-sm transition-colors"
               >
-                Feed
+                Home
               </Link>
               <Link
                 href="/saved"
