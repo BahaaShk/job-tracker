@@ -5,6 +5,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SignOutButton } from "@/components/SignOutButton";
+// NavLink is a small Client Component.
+// It checks the current page URL and adds the active style to the matching link.
 import { NavLink } from "@/components/NavLink";
 
 export async function Navbar() {
@@ -27,6 +29,8 @@ export async function Navbar() {
           {/* Only show nav links if the user is logged in */}
           {user && (
             <div className="flex items-center gap-4">
+              {/* Each NavLink compares its href with the current URL. */}
+              {/* On "/", Home is active. On "/saved", Saved is active. */}
               <NavLink href="/">Home</NavLink>
               <NavLink href="/saved">Saved</NavLink>
             </div>
