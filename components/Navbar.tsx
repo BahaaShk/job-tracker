@@ -1,11 +1,11 @@
 // Server Component — reads the session on the server to know if user is logged in.
 // We keep it as a server component because most of it is static markup.
-// Only the interactive parts (sign out, theme toggle) are split into client components.
+// Only the interactive or route-aware parts are split into client components.
 
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SignOutButton } from "@/components/SignOutButton";
+import { NavLink } from "@/components/NavLink";
 
 export async function Navbar() {
   const supabase = await createClient();
@@ -27,18 +27,8 @@ export async function Navbar() {
           {/* Only show nav links if the user is logged in */}
           {user && (
             <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="text-text-secondary hover:text-text-primary text-sm transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/saved"
-                className="text-text-secondary hover:text-text-primary text-sm transition-colors"
-              >
-                Saved
-              </Link>
+              <NavLink href="/">Home</NavLink>
+              <NavLink href="/saved">Saved</NavLink>
             </div>
           )}
         </div>
